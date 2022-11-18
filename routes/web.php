@@ -13,6 +13,19 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
+$router->get('/home', 'HomeController@index');
+
+$router->group(['prefix' => 'lessons'], function () use ($router) {
+    $router->get('/', ['uses' => 'LessonController@showAddLesson']);
+    $router->post('/add', ['uses' => 'LessonController@addLesson']);
 });
+
+$router->group(['prefix' => 'details'], function () use ($router) {
+    $router->get('/', ['uses' => 'DetailController@showLessonDetails']);
+});
+
+$router->group(['prefix' => 'auth'], function () use ($router) {
+    $router->post('/register', ['uses' => 'AuthController@register']);
+    $router->post('/login', ['uses' => 'AuthController@login']);
+});
+
