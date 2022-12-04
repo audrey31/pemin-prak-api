@@ -15,13 +15,12 @@
 
 $router->get('/home', 'HomeController@index');
 
-$router->group(['prefix' => 'lessons'], function () use ($router) {
-    $router->get('/', ['uses' => 'LessonController@showAddLesson']);
-    $router->post('/add', ['uses' => 'LessonController@addLesson']);
-});
-
-$router->group(['prefix' => 'details'], function () use ($router) {
-    $router->get('/', ['uses' => 'DetailController@showLessonDetails']);
+$router->group(['prefix' => 'mahasiswa'], function () use ($router) {
+    $router->get('/profile', ['uses' => 'MahasiswaController@register']);
+    $router->get('/{nim}', ['uses' => 'MahasiswaController@login']);
+    $router->get('/matakuliah', ['uses' => 'MahasiswaController@login']);
+    $router->post('/{nim}/matakuliah/{mkld}', ['uses' => 'MahasiswaController@login']);
+    $router->put('/{nim}/matakuliah/{mkld}', ['uses' => 'MahasiswaController@login']);
 });
 
 $router->group(['prefix' => 'auth'], function () use ($router) {

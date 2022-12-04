@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('mahasiswa_matakuliah', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->foreignId('mhsNim')->unsigned();
+            $table->foreignId('mkId')->unsigned();
         });
     }
 
