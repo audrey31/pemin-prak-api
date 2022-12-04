@@ -13,12 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('mahasiswas', function (Blueprint $table) {
-            $table->timestamps();
-            $table->string('nim')->primary();
-            $table->string('nama');
-            $table->integer('angkatan');
-            $table->string('password');
+        Schema::table('mahasiswas', function (Blueprint $table) {
+            $table->string('token', 72)->unique()->nullable(); //
         });
     }
 
@@ -29,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mahasiswas');
+        Schema::table('mahasiswa', function (Blueprint $table) {
+            //
+        });
     }
 };

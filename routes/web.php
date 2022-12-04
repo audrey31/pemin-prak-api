@@ -13,7 +13,7 @@
 |
 */
 
-$router->get('/home', 'HomeController@index');
+$router->get('/home', ['middleware' => 'auth', 'uses' => 'HomeController@home']);
 
 $router->group(['prefix' => 'mahasiswa'], function () use ($router) {
     $router->get('/profile', ['uses' => 'MahasiswaController@register']);
