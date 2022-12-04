@@ -5,9 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
-// use Firebase\JWT\JWT;
-use Illuminate\Support\Facades\DB;
 
 
 class AuthController extends Controller
@@ -95,10 +92,10 @@ class AuthController extends Controller
 
   private function base64url_encode(String $data): String
   {
-    $base64 = base64_encode($data); // ubah json string menjadi base64
-    $base64url = strtr($base64, '+/', '-_'); // ubah char '+' -> '-' dan '/' -> '_'
+    $base64 = base64_encode($data);
+    $base64url = strtr($base64, '+/', '-_');
 
-    return rtrim($base64url, '='); // menghilangkan '=' pada akhir string
+    return rtrim($base64url, '=');
   }
 
   private function sign(String $header, String $payload, String $secret): String
