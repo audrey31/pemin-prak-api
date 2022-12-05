@@ -84,6 +84,10 @@ $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authorization::class, //
 ]);
 
+$app->middleware([
+    App\Http\Middleware\CorsMiddleware::class
+]);
+
 /*
 |--------------------------------------------------------------------------
 | Register Service Providers

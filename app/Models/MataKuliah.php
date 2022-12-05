@@ -4,16 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Mahasiswa extends Model
+class MataKuliah extends Model
 {
-  protected $primaryKey = 'nim';
   /**
    * The attributes that are mass assignable.
    *
    * @var string[]
    */
   protected $fillable = [
-    'nim', 'nama', 'angkatan', 'password', 'token'
+    'nama'
   ];
 
   /**
@@ -23,9 +22,9 @@ class Mahasiswa extends Model
    */
   protected $hidden = [];
 
-  protected $table = 'mahasiswas';
+  protected $table = 'matakuliahs';
 
-  public function MataKuliah() {
-    return $this->belongsToMany(MataKuliah::class, 'mahasiswa_matakuliah', 'mkid', 'mhsNim');
+  public function Mahasiswa() {
+    return $this->belongsToMany(Mahasiswa::class, 'mahasiswa_matakuliah', 'mhsNim', 'mkId');
   }
 }
