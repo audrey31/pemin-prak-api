@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Firebase\JWT\JWT;
 
 
 class AuthController extends Controller
@@ -28,7 +29,7 @@ class AuthController extends Controller
     $angkatan = $request->angkatan;
     $password = Hash::make($request->password);
 
-    $user = Mahasiswa::create([
+    $mahasiswa = Mahasiswa::create([
       'nim' => $nim,
       'nama' => $nama,
       'angkatan' => $angkatan,
@@ -39,7 +40,7 @@ class AuthController extends Controller
       'status' => 'Success',
       'message' => 'new user created',
       'data' => [
-        'mahasiswa' => $user,
+        'mahasiswa' => $mahasiswa,
       ]
     ], 200);
   }
@@ -57,7 +58,7 @@ class AuthController extends Controller
         'message' => 'user not exist',
       ], 404);
     }
-    
+
     if (!Hash::check($password, $user->password)) {
       return response()->json([
         'status' => 'Error',
@@ -65,27 +66,14 @@ class AuthController extends Controller
       ], 400);
     }
 
-    //
-    $jwt = $this->jwt(
-      [
-        'alg' => 'HS256',
-        'typ' => 'JWT'
-      ],
-      [
-        'nim' => $user->nim,
-      ],
-      'secret'
-    );
-
-    $user->token = $jwt;
-    
-    $user->save;
+    $user->token = $this->jwt($user);
+    $user->save();
 
     return response()->json([
       'status' => 'Success',
       'message' => 'successfully login',
       'data' => [
-        'mahasiswa' => $user,
+        'user' => $user,
       ]
     ], 200);
   }
@@ -106,17 +94,15 @@ class AuthController extends Controller
     return $signature_base64url;
   }
 
-  private function jwt(array $header, array $payload, String $secret): String
+  protected function jwt(Mahasiswa $mahasiswa)
   {
-    $header_json = json_encode($header);
-    $payload_json = json_encode($payload);
+    $payload = [
+      'iss' => 'lumen-jwt', //issuer of the token
+      'sub' => $mahasiswa->nim, //subject of the token
+      'iat' => time(), //time when JWT was issued.
+      'exp' => time() + 60 * 60 //time when JWT will expire
+    ];
 
-    $header_base64url = $this->base64url_encode($header_json);
-    $payload_base64url = $this->base64url_encode($payload_json);
-    $signature_base64url = $this->sign($header_base64url, $payload_base64url, $secret);
-
-    $jwt = "{$header_base64url}.{$payload_base64url}.{$signature_base64url}";
-
-    return $jwt;
+    return JWT::encode($payload, env('JWT_SECRET'), 'HS256');
   }
 }

@@ -22,6 +22,6 @@ class HomeController extends Controller
         return response()->json([
             'status' => 'Success',
             'message' => 'selamat datang ' . $user->nama,
-        ],200);
+        ], 200);
     }
 }

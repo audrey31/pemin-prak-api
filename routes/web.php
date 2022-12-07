@@ -16,11 +16,11 @@
 $router->get('/home', ['middleware' => 'auth', 'uses' => 'HomeController@home']);
 
 $router->group(['prefix' => 'mahasiswa'], function () use ($router) {
-    $router->get('/profile', ['middleware' => 'auth', 'uses' => 'MahasiswaController@getMahasiswaByToken']);
+    $router->get('/profile', ['middleware' => 'jwt.auth', 'uses' => 'MahasiswaController@getMahasiswaByToken']);
     $router->get('/', ['uses' => 'MahasiswaController@getAllMahasiswa']);
     $router->get('/{nim}', ['uses' => 'MahasiswaController@getMahasiswaByNim']);
-    $router->post('/{nim}/matakuliah/{mkId}', ['middleware' => 'auth', 'uses' => 'MahasiswaController@AddMataKuliahToMahasiswa']);
-    $router->put('/{nim}/matakuliah/{mkId}', ['middleware' => 'auth', 'uses' => 'MahasiswaController@DeleteMataKuliahOnMahasiswa']);
+    $router->post('/{nim}/matakuliah/{mkId}', ['middleware' => 'jwt.auth', 'uses' => 'MahasiswaController@AddMataKuliahToMahasiswa']);
+    $router->put('/{nim}/matakuliah/{mkId}', ['middleware' => 'jwt.auth', 'uses' => 'MahasiswaController@DeleteMataKuliahOnMahasiswa']);
 });
 
 $router->group(['prefix' => 'auth'], function () use ($router) {

@@ -56,7 +56,7 @@ class Authorization
             return response()->json([
                 'status' => 'Error',
                 'message' => 'invalid token',
-            ], 400);;
+            ], 400);
         }
 
         $verified = $this->verify($signature_base64url, $header_base64url, $payload_base64url, 'secret');
@@ -64,10 +64,10 @@ class Authorization
             return response()->json([
                 'status' => 'Error',
                 'message' => 'invalid sign token',
-            ], 400);;
+            ], 400);
         }
         $id = $json_payload->nim;
-        $user = Mahasiswa::where('nim', $id)->first();;
+        $user = Mahasiswa::find($id);
         //
         if (!$user) {
             return response()->json([
